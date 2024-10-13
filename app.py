@@ -45,6 +45,7 @@ combined_df = pd.DataFrame()
 columns_to_keep_combined_dataset = [
     "hashed_id",
     "time",
+    "magnitude",
     "latitude",
     "longitude",
     "place",
