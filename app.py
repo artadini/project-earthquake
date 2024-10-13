@@ -1,14 +1,16 @@
 import pandas as pd
-from functions.helper_functions import (
+from functions.transformation import (
+    combine_transform_data,
+)
+from functions.extraction import (
+    extract_data_return_df,
     get_coordinates,
     get_total_n_earthquakes,
-    extract_data_return_df,
-    combine_transform_data,
 )
 from functions.bigquery_functions import push_data_to_bigquery
 from functions.logger import get_logger
 
-logger = get_logger("main-script")
+logger = get_logger("app")
 
 # Addresses used for finding the earthquakes
 locations = {
