@@ -36,8 +36,6 @@ Create curated dataset with only following schema:
 4. Explanation of how to run the service and test it
 5. Suggestions on next steps on how to build a more robust infrastructure
 
-
-
 ## Learnings
 - How to work with unittests and the mock module
 - Working with GCP BigQuery
@@ -50,7 +48,6 @@ Create curated dataset with only following schema:
 # How to install
 The following section will run you through on how to deploy locally. There are no preqrequisites for this project, because everything is packages in the Dockerfile and it can be deployed using the Makefile.
 
-## Quickstart
 1. Clone the repository.
 2. Create a project for this app in BigQuery.
 3. In the newly created project, create the datasets: `raw_data` and `curated_data` in BigQuery.
