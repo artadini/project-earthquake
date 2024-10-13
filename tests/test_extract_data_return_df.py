@@ -1,103 +1,70 @@
 import unittest
 from unittest.mock import patch, MagicMock
-import pandas as pd
-from io import StringIO
-import requests
-from functions.helper_functions import extract_data_return_df
+from functions.extraction import get_coordinates
 
 
-class ExtractDataReturnDf(unittest.TestCase):
+class GetCoordinates(unittest.TestCase):
     """
-    ExtractDataReturnDf contains unit tests for the extract_data_return_df function.
+    Unit tests for the get_coordinates function.
 
     Methods:
-        test_extract_data_return_df_success(mock_sleep, mock_get):
-            Tests that extract_data_return_df successfully returns a DataFrame when the HTTP request is successful.
+        test_get_coordinates(self, MockArcGIS):
+            Tests the get_coordinates function with valid locations.
+            Mocks the ArcGIS geocode method to return predefined coordinates for Los Angeles and New York.
+            Asserts that the function returns the expected output.
 
-        test_extract_data_return_df_http_error(mock_sleep, mock_get):
-            Tests that extract_data_return_df raises an HTTPError when the HTTP request fails with an HTTP error.
-
-        test_extract_data_return_df_timeout(mock_sleep, mock_get):
-            Tests that extract_data_return_df raises a Timeout error when the HTTP request times out.
-
-        test_extract_data_return_df_request_exception(mock_sleep, mock_get):
-            Tests that extract_data_return_df raises a RequestException when the HTTP request encounters a general request exception.
+        test_get_coordinates_with_missing_location(self, MockArcGIS):
+            Tests the get_coordinates function with a missing location.
+            Mocks the ArcGIS geocode method to return None for an unknown location and predefined coordinates for New York.
+            Asserts that the function returns the expected output, excluding the missing location.
     """
 
-    @patch("functions.helper_functions.requests.get")
-    @patch("functions.helper_functions.time.sleep", return_value=None)
-    def test_extract_data_return_df_success(self, mock_sleep, mock_get):
-        # Mock the response from requests.get
-        mock_response = MagicMock()
-        mock_response.raise_for_status = MagicMock()
-        mock_response.text = "col1,col2\nval1,val2\nval3,val4"
-        mock_get.return_value = mock_response
+    @patch("functions.extraction.ArcGIS")
+    def test_get_coordinates(self, MockArcGIS):
+        # Mock the geocode method
+        mock_geocode = MagicMock()
+        mock_geocode.side_effect = [
+            MagicMock(latitude=34.0522, longitude=-118.2437),  # Los Angeles
+            MagicMock(latitude=40.7128, longitude=-74.0060),  # New York
+        ]
+        MockArcGIS.return_value.geocode = mock_geocode
 
-        url = "http://example.com"
-        location_name = "Test Location"
+        # Define the input dictionary
+        locations = {"Los Angeles": "Los Angeles, CA", "New York": "New York, NY"}
 
-        # Call the function
-        result_df = extract_data_return_df(url, location_name)
-
-        # Create expected DataFrame
-        expected_df = pd.read_csv(StringIO(mock_response.text))
-
-        # Assert the DataFrame is as expected
-        pd.testing.assert_frame_equal(result_df, expected_df)
-        mock_get.assert_called_once_with(url)
-        mock_response.raise_for_status.assert_called_once()
-        mock_sleep.assert_called_once_with(1)
-
-    @patch("functions.helper_functions.requests.get")
-    @patch("functions.helper_functions.time.sleep", return_value=None)
-    def test_extract_data_return_df_http_error(self, mock_sleep, mock_get):
-        # Mock the response from requests.get to raise an HTTPError
-        mock_response = MagicMock()
-        mock_response.raise_for_status.side_effect = requests.HTTPError("HTTP Error")
-        mock_get.return_value = mock_response
-
-        url = "http://example.com"
-        location_name = "Test Location"
+        # Expected output
+        expected_output = {
+            "Los Angeles": [34.0522, -118.2437],
+            "New York": [40.7128, -74.0060],
+        }
 
         # Call the function
-        with self.assertRaises(requests.HTTPError):
-            extract_data_return_df(url, location_name)
+        result = get_coordinates(locations)
 
-        mock_get.assert_called_once_with(url)
-        mock_response.raise_for_status.assert_called_once()
-        mock_sleep.assert_not_called()
+        # Assert the result
+        self.assertEqual(result, expected_output)
 
-    @patch("functions.helper_functions.requests.get")
-    @patch("functions.helper_functions.time.sleep", return_value=None)
-    def test_extract_data_return_df_timeout(self, mock_sleep, mock_get):
-        # Mock the response from requests.get to raise a Timeout
-        mock_get.side_effect = requests.Timeout("Timeout Error")
+    @patch("functions.extraction.ArcGIS")
+    def test_get_coordinates_with_missing_location(self, MockArcGIS):
+        # Mock the geocode method
+        mock_geocode = MagicMock()
+        mock_geocode.side_effect = [
+            None,  # Missing location
+            MagicMock(latitude=40.7128, longitude=-74.0060),  # New York
+        ]
+        MockArcGIS.return_value.geocode = mock_geocode
 
-        url = "http://example.com"
-        location_name = "Test Location"
+        # Define the input dictionary
+        locations = {"Unknown": "Unknown, XX", "New York": "New York, NY"}
 
-        # Call the function
-        with self.assertRaises(requests.Timeout):
-            extract_data_return_df(url, location_name)
-
-        mock_get.assert_called_once_with(url)
-        mock_sleep.assert_not_called()
-
-    @patch("functions.helper_functions.requests.get")
-    @patch("functions.helper_functions.time.sleep", return_value=None)
-    def test_extract_data_return_df_request_exception(self, mock_sleep, mock_get):
-        # Mock the response from requests.get to raise a RequestException
-        mock_get.side_effect = requests.RequestException("Request Exception")
-
-        url = "http://example.com"
-        location_name = "Test Location"
+        # Expected output
+        expected_output = {"New York": [40.7128, -74.0060]}
 
         # Call the function
-        with self.assertRaises(requests.RequestException):
-            extract_data_return_df(url, location_name)
+        result = get_coordinates(locations)
 
-        mock_get.assert_called_once_with(url)
-        mock_sleep.assert_not_called()
+        # Assert the result
+        self.assertEqual(result, expected_output)
 
 
 if __name__ == "__main__":
