@@ -9,6 +9,7 @@ from functions.extraction import (
 )
 from functions.bigquery_functions import push_data_to_bigquery
 from functions.logger import get_logger
+from datetime import datetime
 
 logger = get_logger("app")
 
@@ -26,7 +27,7 @@ locations = {
 # Define constraints
 file_format = "csv"
 start_time = "2020-01-01"  # Date format in ISO8601 (YYY-MM-DD)
-end_time = "2023-12-31"
+end_time = datetime.now().strftime("%Y-%m-%d")
 maxradiuskm = 500
 limit = 20000
 
