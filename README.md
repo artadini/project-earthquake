@@ -46,3 +46,4 @@ https://docs.google.com/document/d/1xJ-x-0p4zXMwFO3c76kQdt0kvUdWElFVmLnPqXpBJm8/
 
 
 # Run tests
+python -m unittest tests/{file_name}.py
