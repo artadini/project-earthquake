@@ -2,6 +2,8 @@ Project Earthquake: Automating Seismic Insights
 ===
 The following project has been created to apply to the position: Data Engineer, at Pleo.
 
+<img width="983" alt="image" src="https://github.com/user-attachments/assets/f30f07e5-f921-4e15-a236-685285b1da26">
+
 # Deliverables
 - [x] Deployable in production
 - [x] Tests have been added
@@ -32,8 +34,6 @@ About that data:
 > The USGS monitors and reports on earthquakes, assesses earthquake impacts and hazards, and conducts targeted research on the causes and effects of earthquakes. We undertake these activities as part of the larger National Earthquake Hazards Reduction Program (NEHRP), a four-agency partnership established by Congress.
 
 This project will find all recorded earthquakes within 500 km of each of the pleo.io offices for the year to date and store the data in a target data warehouse, BigQuery.
-
-<img width="983" alt="image" src="https://github.com/user-attachments/assets/f30f07e5-f921-4e15-a236-685285b1da26">
 
 ### Additional information
 * [Follow this link](https://docs.google.com/document/d/1xJ-x-0p4zXMwFO3c76kQdt0kvUdWElFVmLnPqXpBJm8/edit) to find further details about task.
