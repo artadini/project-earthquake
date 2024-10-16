@@ -21,7 +21,7 @@ Create curated dataset with only following schema:
 | latitude      | Latitude of earthquake  |
 | longitude      | Longitude of earthquake  |
 | place      | Address from where earthquake happened  |
-| hased_id      | Hashed ID using all columns of the raw dataset  |
+| hased_id      | Hashed ID using all columns of the raw dataset for easier deduplication downstream  |
 | location      | Name of the extract location  |
 | inserted_at      | Timestamp of the extracted data  |
 
