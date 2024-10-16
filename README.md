@@ -77,7 +77,7 @@ While this project is fully deployable, there are several areas where enhancemen
     - Currently, the project lacks the capability to be triggered automatically once a week. This is an intended limitation, but with some tweaks, it can be deployed in an Airflow instance or a Kubernetes cluster with minimal effort.
     - The structure of the app.py file follows a similar pattern to an Airflow DAG, indicating that integration with Airflow for scheduling can be achieved seamlessly.
 2. User interaction:
-    - Improve the app.py file to allow users to add additional addresses dynamically, providing a more interactive and user-friendly experience.
+    - Improve the `app.py` file to allow users to add additional addresses dynamically, providing a more interactive and user-friendly experience.
 3. Secure handling of secrets:
     - At present, the developer must manually create secrets via the Service Account IAM & Admin function.
     - Enhance security by placing secrets in a secret vault and retrieving them from the script. This approach ensures a more secure and manageable way of handling sensitive information.
@@ -123,3 +123,4 @@ The following technologies were utilized to implement the project:
 * **requests**: Utilised to access the API via HTTPS.
 * **logging**: To log all required actions.
 * **Black**: For better formatting.
+* and further dependencies found in the requirements.txt file
