@@ -1,4 +1,4 @@
-Project Earthquake
+Project Earthquake: Automating Seismic Insights
 ===
 The following project has been created to apply to the position: Data Engineer, at Pleo.
 
