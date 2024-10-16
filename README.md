@@ -17,7 +17,7 @@ Create curated dataset with only following schema:
 | column name         | Description     |
 |--------------|-----------|
 | time | Timestamp day of recorded earthquake |
-| magnitude      | Recorded magnitude of earthquake  |
+| mag      | Recorded magnitude of earthquake  |
 | latitude      | Latitude of earthquake  |
 | longitude      | Longitude of earthquake  |
 | place      | Address from where earthquake happened  |
