@@ -1,7 +1,5 @@
 import pandas as pd
-from functions.transformation import (
-    combine_transform_data,
-)
+from functions.transformation import minor_transform_and_append_dataframe
 from functions.extraction import (
     extract_data_return_df,
     get_coordinates,
@@ -81,7 +79,7 @@ for location_name, coordinates in dic_addresses.items():
     )
 
     if total_number_earthquakes <= 2000:
-        logger.info(
+        logger.debug(
             "Total number of earthquakes is less than 2000. Proceed with the extraction."
         )
 
@@ -110,19 +108,19 @@ for location_name, coordinates in dic_addresses.items():
         )
 
         # Transform and combine raw data to curated data
-        combined_df = combine_transform_data(
+        combined_df = minor_transform_and_append_dataframe(
             location_name=location_name,
             df=extracted_data,
             columns_to_keep=columns_to_keep_combined_dataset,
             end_combined_df=combined_df,
         )
     else:
-        logger.info(
+        logger.debug(
             "Total number of earthquakes exceeds 2000. Split the extraction in less than 2000 rows."
         )
 
 logger.info(
-    "Pushing combined data to BigQuery, containing the altered dataset with the location."
+    "Pushing combined data to BigQuery, containing the curated dataset with the location."
 )
 
 # Load curated data to BigQuery
@@ -133,4 +131,6 @@ push_data_to_bigquery(
     df=combined_df,
 )
 
-logger.info(f"Total rows extracted: {len(combined_df)}.\nExtraction process finished.")
+
+logger.debug(f"Total rows extracted: {len(combined_df)}.\nExtraction process finished.")
+logger.info("Extraction process finished.")

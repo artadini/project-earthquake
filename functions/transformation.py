@@ -7,24 +7,25 @@ from io import StringIO
 logger = get_logger("transformation")
 
 
-def combine_transform_data(location_name, df, columns_to_keep, end_combined_df):
+def minor_transform_and_append_dataframe(
+    location_name, df, columns_to_keep, end_combined_df
+):
     """
-    Combines and transforms data for a given location.
+    Combines and transforms a DataFrame by adding location, timestamp, and hash ID columns,
+    and optionally appends it to an existing DataFrame.
 
-    This function adds a location name and a timestamp to the DataFrame, creates a hashed ID for each row,
-    removes duplicates based on the 'id' column, and appends the data to an existing combined DataFrame.
-
-    Args:
-        location_name (str): The name of the location to be added to the DataFrame.
-        df (pd.DataFrame): The DataFrame containing the data to be transformed.
-        columns_to_keep (list): A list of column names to keep in the final combined DataFrame.
-        end_combined_df (pd.DataFrame or None): The existing combined DataFrame to which the new data will be appended.
-                                                If None, a new DataFrame will be created.
+    Parameters:
+    location_name (str): The name of the location to be added as a column.
+    df (pd.DataFrame): The DataFrame to be transformed.
+    columns_to_keep (list): List of columns to keep in the final DataFrame.
+    end_combined_df (pd.DataFrame or None): The existing DataFrame to append the transformed DataFrame to.
+                                            If None, only the transformed DataFrame is returned.
 
     Returns:
-        pd.DataFrame: The combined and transformed DataFrame.
-        str: A message indicating an empty response if the input DataFrame is None.
+    pd.DataFrame: The transformed DataFrame with added columns and optionally combined with the existing DataFrame.
+    str: A message indicating an empty response if the input DataFrame is None.
     """
+
     logger.info(f"Combining and transforming data for location: {location_name}")
 
     if df is not None:
@@ -140,7 +141,7 @@ def validate_and_transform_schema(extracted_schema, expected_schema, data_rows):
             extracted_schema[column] = expected_dtype
 
 
-def test_schema(data_text):
+def validate_and_transform_schema_from_csv(data_text):
     """
     Note: This function is for testing purposes only and therefore has no test coverage.
 
@@ -207,5 +208,5 @@ def test_schema(data_text):
     # Validate and transform the schema
     validate_and_transform_schema(extracted_schema, expected_schema, data_rows)
 
-    logger.info("Schema validation and transformation passed.")
+    logger.debug("Schema validation and transformation passed.")
     return data_rows
