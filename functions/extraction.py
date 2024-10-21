@@ -3,9 +3,8 @@ import pandas as pd
 import time
 from io import StringIO
 from functions.logger import get_logger
-import csv
 from geopy.geocoders import ArcGIS
-from functions.transformation import test_schema
+from functions.transformation import validate_and_transform_schema_from_csv
 
 logger = get_logger("extraction")
 
@@ -34,10 +33,10 @@ def extract_data_return_df(url, location_name):
         response = requests.get(url)
         response.raise_for_status()  # Check for HTTP errors
 
-        logger.info("Sleeping for 1 second.")
+        logger.debug("Sleeping for 1 second.")
         time.sleep(1)  # Sleep for 1 second to avoid hitting rate limits
 
-        test_schema(response.text)
+        validate_and_transform_schema_from_csv(response.text)
 
         return pd.read_csv(StringIO(response.text))
 

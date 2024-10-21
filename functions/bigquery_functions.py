@@ -26,7 +26,7 @@ def push_data_to_bigquery(df, project_id, dataset_id, table_name, if_exists="app
     # Check if the DataFrame is not empty
     if not df.empty:
         table_id = f"{project_id}.{dataset_id}.{table_name}"
-        logger.info(f"Sending data to {table_id}")
+        logger.debug(f"Sending data to {table_id}")
 
         # Create a BigQuery client
         client = bigquery_client()

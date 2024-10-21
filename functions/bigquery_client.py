@@ -20,7 +20,7 @@ def bigquery_client():
     """
     # Path to the service account key file
     key_path = "./bigquery-project-earthquake-secrets.json"
-    logger.info("Create BigQuery client.")
+    logger.debug("Create BigQuery client.")
     # Set the environment variable for authentication
     os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = key_path
 

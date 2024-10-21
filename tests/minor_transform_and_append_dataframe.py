@@ -1,15 +1,15 @@
 import unittest
 import pandas as pd
 from pandas.testing import assert_frame_equal
-from functions.transformation import combine_transform_data
+from functions.transformation import minor_transform_and_append_dataframe
 
 
 class CombineTransformData(unittest.TestCase):
     """
-    Unit tests for the combine_transform_data function.
+    Unit tests for the minor_transform_and_append_dataframe function.
 
     CombineTransformData is a test case class that contains unit tests for the
-    combine_transform_data function. The tests ensure that the function correctly
+    minor_transform_and_append_dataframe function. The tests ensure that the function correctly
     combines and transforms data from multiple DataFrames.
 
     Methods
@@ -17,14 +17,14 @@ class CombineTransformData(unittest.TestCase):
     setUp():
         Sets up the sample data and columns to keep for testing.
 
-    test_combine_transform_data_with_empty_end_combined_df():
-        Tests the combine_transform_data function when the end_combined_df is empty.
+    test_minor_transform_and_append_dataframe_with_empty_end_combined_df():
+        Tests the minor_transform_and_append_dataframe function when the end_combined_df is empty.
 
-    test_combine_transform_data_with_non_empty_end_combined_df():
-        Tests the combine_transform_data function when the end_combined_df is not empty.
+    test_minor_transform_and_append_dataframe_with_non_empty_end_combined_df():
+        Tests the minor_transform_and_append_dataframe function when the end_combined_df is not empty.
 
-    test_combine_transform_data_with_empty_df():
-        Tests the combine_transform_data function when the input DataFrame is empty.
+    test_minor_transform_and_append_dataframe_with_empty_df():
+        Tests the minor_transform_and_append_dataframe function when the input DataFrame is empty.
     """
 
     def setUp(self):
@@ -33,19 +33,19 @@ class CombineTransformData(unittest.TestCase):
         self.df2 = pd.DataFrame({"id": [4, 5, 6], "value": ["d", "e", "f"]})
         self.columns_to_keep = ["id", "value", "location", "inserted_at"]
 
-    def test_combine_transform_data_with_empty_end_combined_df(self):
-        result = combine_transform_data(
+    def test_minor_transform_and_append_dataframe_with_empty_end_combined_df(self):
+        result = minor_transform_and_append_dataframe(
             "Location1", self.df1, self.columns_to_keep, None
         )
         self.df1["location"] = "Location1"
         self.df1["inserted_at"] = result["inserted_at"]
         assert_frame_equal(result[self.columns_to_keep], self.df1[self.columns_to_keep])
 
-    def test_combine_transform_data_with_non_empty_end_combined_df(self):
+    def test_minor_transform_and_append_dataframe_with_non_empty_end_combined_df(self):
         self.df1["location"] = "Location1"
         self.df2["location"] = "Location2"
         combined_df = pd.concat([self.df2, self.df1], ignore_index=True)
-        result = combine_transform_data(
+        result = minor_transform_and_append_dataframe(
             "Location1", self.df1, self.columns_to_keep, self.df2
         )
 
@@ -69,8 +69,8 @@ class CombineTransformData(unittest.TestCase):
         )
         assert_frame_equal(result_sorted, combined_df_sorted)
 
-    def test_combine_transform_data_with_empty_df(self):
-        result = combine_transform_data(
+    def test_minor_transform_and_append_dataframe_with_empty_df(self):
+        result = minor_transform_and_append_dataframe(
             "Location3", None, self.columns_to_keep, self.df1
         )
         self.assertEqual(result, "Empty response received for location: Location3.\n")
