@@ -36,7 +36,6 @@ About that data:
 This project will find all recorded earthquakes within 500 km of each of the pleo.io offices for the year to date and store the data in a target data warehouse, BigQuery.
 
 ### Additional information
-* [Follow this link](https://docs.google.com/document/d/1xJ-x-0p4zXMwFO3c76kQdt0kvUdWElFVmLnPqXpBJm8/edit) to find further details about task.
 * Data [source schema](https://earthquake.usgs.gov/earthquakes/feed/v1.0/csv.php)
 * [Link to architecture](https://miro.com/app/board/uXjVK_LvEq0=/?moveToWidget=3458764591301014881&cot=14) and notes
 
